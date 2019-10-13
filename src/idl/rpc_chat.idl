@@ -1,0 +1,35 @@
+[
+uuid(6cb8924c-47ac-43fd-93c3-61ad0638694b),
+version(1.0)
+]
+interface RpcChat
+{
+	#define MAX_ERROR_MESSAGE_SIZE 256 
+	typedef unsigned long STATUS;
+	 
+	STATUS SendUserInfo([in, string] char *userName,
+		[in] unsigned long userID,
+		[out, string] char errorMessage[MAX_ERROR_MESSAGE_SIZE]);
+		
+	STATUS SendMessage([in, string] char *message,
+		[in] unsigned long userID,
+		[out, string] char errorMessage[MAX_ERROR_MESSAGE_SIZE]);
+	
+	STATUS UserExit([in] unsigned long userID,
+	    [out, string] char errorMessage[MAX_ERROR_MESSAGE_SIZE]);
+	
+	STATUS CheckUsers([in] unsigned long userID,
+	    [out, string] char errorMessage[MAX_ERROR_MESSAGE_SIZE]);
+		
+	STATUS CheckMessage([in] unsigned long userID,
+	    [out, string] char errorMessage[MAX_ERROR_MESSAGE_SIZE]);
+	
+	[callback]
+	void GetOnlineUsersCb([in, string] char *message);
+	
+	[callback]
+	void UpdateUsersStatusCb([in, string] char *message);
+	
+	[callback]
+	void UpdateMessageCb([in, string] char *message);
+}
